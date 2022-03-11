@@ -24,7 +24,7 @@ class MatrixToDataFrame(BaseEstimator, TransformerMixin):
         self.fn = fn
 
     def fit(self, X, y=None):
-        self.cols = self.fn()['cols']
+        self.cols = self.fn()
         return self
 
     def transform(self, X, y=None):
