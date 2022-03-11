@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
@@ -16,3 +17,20 @@ class ColumnRename(BaseEstimator, TransformerMixin):
 
     def get_feature_names_out(self, feature_names_from_previous_step):
         return self.new_columns
+
+
+class MatrixToDataFrame(BaseEstimator, TransformerMixin):
+    def __init__(self, fn):
+        self.fn = fn
+
+    def fit(self, X, y=None):
+        self.cols = self.fn()['cols']
+        return self
+
+    def transform(self, X, y=None):
+        df = pd.DataFrame(X, columns=self.cols)
+        df = df.apply(pd.to_numeric, errors='ignore')
+        return df
+
+    def get_feature_names_out(self, feature_names_from_previous_step):
+        return self.cols
