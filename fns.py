@@ -20,11 +20,11 @@ class ColumnRename(BaseEstimator, TransformerMixin):
 
 
 class MatrixToDataFrame(BaseEstimator, TransformerMixin):
-    def __init__(self, fn):
-        self.fn = fn
+    def __init__(self, transformer):
+        self.transformer = transformer
 
     def fit(self, X, y=None):
-        self.cols = self.fn()
+        self.cols = self.transformer.get_feature_names_out()
         return self
 
     def transform(self, X, y=None):
